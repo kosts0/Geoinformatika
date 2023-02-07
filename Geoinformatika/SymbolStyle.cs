@@ -30,7 +30,7 @@ namespace Geoinformatika
         public string Font = "Wingdings";
         public SymbolStyle()
         {
-            Type = 0x26;
+            Type = 0xA7;
             Color = Color.Blue;
             Size = 14;
             Font = "Wingdings";

@@ -97,16 +97,6 @@ namespace Geoinformatika
             layer.AddObject(new Point(250, 30));
             layer.AddObject(new Line(new Geopoint(-150, 25), new Geopoint(-300, 250)));
             this.AddLayer(layer);
-            //GridLayer gridLayer = new GridLayer(new GridGeometry(-100, 200, 1, 200, 150));
-            //gridLayer.Name = "testGridLayer";
-            //gridLayer.InterpolateFromPoints(new List<Geopoint>()
-            //{
-            //    new Geopoint(0,0,0),
-            //    new Geopoint(1,1,1),
-            //    new Geopoint(2,2,2)
-            //}, new InterpalationParams());
-            //AddLayer(gridLayer);
-
         }
         public void AddLayer(AbstractLayer layer)
         {

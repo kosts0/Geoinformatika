@@ -21,13 +21,6 @@ namespace Geoinformatika
             map1.layerControl = layerControl1;
             layerControl1.RefreshList();
         }
-
-
-        private void map1_Load(object sender, EventArgs e)
-        {
-            toolStripStatusLabel4.Text = CrossHelper.IsCrossLines(new Geopoint(0, 0), new Geopoint(5, 5), new Geopoint(3, 0), new Geopoint(5, 4.9)).ToString();
-        }
-
         private void Pan_Click(object sender, EventArgs e)
         {
 
@@ -116,11 +109,9 @@ namespace Geoinformatika
         private void map1_MouseMove(object sender, MouseEventArgs e)
         {
             
-            toolStripStatusLabel1.Text = e.X + " " + e.Y;
             Geopoint geopoint = map1.ScreenToMap(e.Location);
-            toolStripStatusLabel2.Text = geopoint.X + " " + geopoint.Y;
-            toolStripStatusLabel3.Text = map1.MapScale.ToString();
-
+            toolStripStatusLabel2.Text = $"Координаты: {geopoint.X} {geopoint.Y}";
+            toolStripStatusLabel3.Text = $"Текущий масштаб: {map1.MapScale}";
         }
 
         private void RulerButton_Click(object sender, EventArgs e)
@@ -209,7 +200,7 @@ namespace Geoinformatika
         {
             if(map1.ActiveTool == MapToolType.GetValue)
             {
-                toolStripStatusLabel5.Text = map1.LastValue.ToString();
+                toolStripStatusLabel5.Text = $"Значение геополя: {map1.LastValue}";
             }
         }
 
