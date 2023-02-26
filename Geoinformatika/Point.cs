@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Geoinformatika
@@ -14,9 +11,9 @@ namespace Geoinformatika
     /// </summary>
     public class Geopoint
     {
-        public double X;
-        public double Y;
-        public double Z;
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Z { get; set; }
         public Geopoint(double x1, double y1)
         {
             X = x1;
@@ -37,41 +34,42 @@ namespace Geoinformatika
         /// <summary>
         /// Геопозиция
         /// </summary>
-        public Geopoint location;
+        public Geopoint Location { get; set; }
         /// <summary>
         /// Стиль тички (символ)
         /// </summary>
-        public SymbolStyle Style;
+        public SymbolStyle Style { get; set; }
         public Point(Geopoint point)
         {
-            location = point;
+            Location = point;
             Style = new SymbolStyle();
         }
         public Point(double x, double y)
         {
-            location = new Geopoint(x, y);
+            Location = new Geopoint(x, y);
             Style = new SymbolStyle();
         }
         public Point(Geopoint point, SymbolStyle symbolStyle)
         {
-            location = point;
+            Location = point;
             Style = symbolStyle;
         }
         public Point(string mifString)
         {
-            string regex = @"POINT (-?\d*) (-?\d*)";
+            const string regex = @"POINT (-?\d*) (-?\d*)";
             var match = Regex.Match(mifString, regex);
-            int x, y;
+            int x;
+            int y;
             try
             {
-                x = Convert.ToInt32(match.Groups[1].Value);
-                y = Convert.ToInt32(match.Groups[2].Value);
+                x = Convert.ToInt32(match.Groups[1].Value, CultureInfo.CurrentCulture);
+                y = Convert.ToInt32(match.Groups[2].Value, CultureInfo.CurrentCulture);
             }
             catch
             {
-                throw new Exception("Неверная mif строка");
+                throw new NotSupportedException("Неверная mif строка");
             }
-            string stymbolReges = @"Symbol\D(\d*), (\d*), (\d*)";
+            const string stymbolReges = @"Symbol\D(\d*), (\d*), (\d*)";
             match = Regex.Match(mifString, stymbolReges);
             byte type;
             int color;
@@ -79,30 +77,29 @@ namespace Geoinformatika
             int size;
             try
             {
-                type = Convert.ToByte(match.Groups[1].Value);
-                color = Convert.ToInt32(match.Groups[2].Value);
+                type = Convert.ToByte(match.Groups[1].Value, CultureInfo.CurrentCulture);
+                color = Convert.ToInt32(match.Groups[2].Value, CultureInfo.CurrentCulture);
                 rGBColor = Color.FromArgb((color & 0xFF0000) / 65534, (color & 0xFF00) / 256, color & 0xFF);
-                size = Convert.ToInt32(match.Groups[3].Value);
+                size = Convert.ToInt32(match.Groups[3].Value, CultureInfo.CurrentCulture);
             }
             catch
             {
-                throw new Exception("Неверная mif строка (Style)");
+                throw new NotSupportedException("Неверная mif строка (Style)");
             }
             SymbolStyle style = new SymbolStyle(type, rGBColor, size);
-            location = new Geopoint(x, y);
+            Location = new Geopoint(x, y);
             Style = style;
         }
         public override void Draw(PaintEventArgs e)
         {
-            System.Drawing.Point mapToScreenPoint = layer.Map.MapToScreen(location);
-            string symbol = Convert.ToChar(Style.Type).ToString();
+            System.Drawing.Point mapToScreenPoint = Layer.Map.MapToScreen(Location);
+            string symbol = Convert.ToChar(Style.Type, CultureInfo.CurrentCulture).ToString();
             var font = new System.Drawing.Font(Style.Font, Style.Size);
             var measureString = e.Graphics.MeasureString(symbol, font);
-            mapToScreenPoint.X = (int) (mapToScreenPoint.X - measureString.Width / 2);
-            mapToScreenPoint.Y = (int) (mapToScreenPoint.Y - measureString.Height / 2);
+            mapToScreenPoint.X = (int)(mapToScreenPoint.X - measureString.Width / 2);
+            mapToScreenPoint.Y = (int)(mapToScreenPoint.Y - measureString.Height / 2);
             var brush = new System.Drawing.SolidBrush(Selected ? Color.DarkRed : Style.Color);
             e.Graphics.DrawString(symbol, font, brush, mapToScreenPoint);
-            return;
         }
         /// <summary>
         /// Получить рамку для точки
@@ -110,17 +107,17 @@ namespace Geoinformatika
         /// <returns></returns>
         protected override GeoRect GetBounds()
         {
-            return new GeoRect(location.X, location.Y, location.X, location.Y);
+            return new GeoRect(Location.X, Location.Y, Location.X, Location.Y);
         }
         public override MapObject IsCross(GeoRect search)
         {
-            System.Drawing.Graphics graphics = layer.Map.CreateGraphics();
-            string symbol = Convert.ToChar(Style.Type).ToString();
+            System.Drawing.Graphics graphics = Layer.Map.CreateGraphics();
+            string symbol = Convert.ToChar(Style.Type, CultureInfo.CurrentCulture).ToString();
             System.Drawing.Font font = new System.Drawing.Font(Style.Font, Style.Size);
             var size = graphics.MeasureString(symbol, font);
-            GeoRect rect = new GeoRect(location.X - (size.Width / 2) / layer.Map.MapScale, location.Y - (size.Height / 2) / layer.Map.MapScale,
-                location.X + (size.Width / 2) / layer.Map.MapScale, location.Y + (size.Height / 2) / layer.Map.MapScale);
-            if (GeoRect.IsIntersect(search, rect) == true)
+            GeoRect rect = new GeoRect(Location.X - (size.Width / 2) / Layer.Map.MapScale, Location.Y - (size.Height / 2) / Layer.Map.MapScale,
+                Location.X + (size.Width / 2) / Layer.Map.MapScale, Location.Y + (size.Height / 2) / Layer.Map.MapScale);
+            if (GeoRect.IsIntersect(search, rect))
             {
                 return this;
             }

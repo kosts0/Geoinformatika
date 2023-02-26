@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Geoinformatika
 {
@@ -12,11 +7,11 @@ namespace Geoinformatika
         /// <summary>
         /// Название слоя
         /// </summary>
-        public string Name;
+        public string Name { get; set; }
         /// <summary>
         /// Связь с картой
         /// </summary>
-        public Map Map;
+        public Map Map { get; set; }
         private bool visible = true;
         public bool Visible
         {

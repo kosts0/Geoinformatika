@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Geoinformatika
@@ -16,17 +11,17 @@ namespace Geoinformatika
         {
             InitializeComponent();
         }
-        public Map map;
+        public Map Map { get; set; }
         public void RefreshList()
         {
             listView1.BeginUpdate();
             listView1.Clear();
-            if (map == null)
+            if (Map == null)
             {
                 return;
             }
             int i = 0;
-            foreach (AbstractLayer layer in map.Layers)
+            foreach (AbstractLayer layer in Map.Layers)
             {
                 i++;
                 if (layer.Name != "Noname")
@@ -39,12 +34,6 @@ namespace Geoinformatika
             }
             listView1.EndUpdate();
         }
-
-        private void listView1_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-
-        }
-
         private void listView1_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             AbstractLayer layer = (AbstractLayer)e.Item.Tag;
@@ -53,11 +42,11 @@ namespace Geoinformatika
                 return;
             }
             layer.Visible = e.Item.Checked;
-            if (map == null)
+            if (Map == null)
             {
                 return;
             }
-            map.Refresh();
+            Map.Refresh();
 
             //Layer layer2 = (e.Item.Tag) as Layer;
         }
@@ -105,14 +94,7 @@ namespace Geoinformatika
             if (targetIndex > -1)
             {
                 Rectangle itemBounds = listView1.GetItemRect(targetIndex);
-                if (targetPoint.X > itemBounds.Left + (itemBounds.Width / 2))
-                {
-                    listView1.InsertionMark.AppearsAfterItem = true;
-                }
-                else
-                {
-                    listView1.InsertionMark.AppearsAfterItem = false;
-                }
+                listView1.InsertionMark.AppearsAfterItem = targetPoint.X > itemBounds.Left + (itemBounds.Width / 2);
             }
 
             listView1.InsertionMark.Index = targetIndex;
@@ -120,7 +102,7 @@ namespace Geoinformatika
 
         public void SinListWithMap()
         {
-            if (map == null)
+            if (Map == null)
             {
                 return;
             }
@@ -132,8 +114,8 @@ namespace Geoinformatika
                 tempLayers.Add(listView1.Items[i].Tag as AbstractLayer);
             }
 
-            map.Layers = tempLayers;
-            map.Refresh();
+            Map.Layers = tempLayers;
+            Map.Refresh();
         }
         private void listView1_DragDrop(object sender, DragEventArgs e)
         {
@@ -154,11 +136,11 @@ namespace Geoinformatika
             }
             ListViewItem draggetItem = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
 
-            Map oldMap = map;
-            map = null;
+            Map oldMap = Map;
+            Map = null;
 
             listView1.Items.Insert(targetIndex+1, (ListViewItem)draggetItem.Clone());
-            map = oldMap;
+            Map = oldMap;
 
             listView1.Items.Remove(draggetItem);
             SinListWithMap();

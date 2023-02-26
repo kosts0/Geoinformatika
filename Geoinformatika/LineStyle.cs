@@ -30,7 +30,7 @@ namespace Geoinformatika
             Type = 0;
             Color = Color.Red;
         }
-        public LineStyle(int wight,int type,Color color)
+        public LineStyle(int wight, int type, Color color)
         {
             Wight = wight;
             Type = type;

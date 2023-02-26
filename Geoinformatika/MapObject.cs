@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 using System.Windows.Forms;
 
 namespace Geoinformatika
@@ -15,7 +13,7 @@ namespace Geoinformatika
         /// <summary>
         /// Связка со слоем
         /// </summary>
-        public VectorLayer layer;
+        public VectorLayer Layer { get; set; }
         /// <summary>
         /// Абстрактный метод отрисовки
         /// </summary>
@@ -29,6 +27,6 @@ namespace Geoinformatika
         /// <param name="search"></param>
         /// <returns></returns>
         public abstract MapObject IsCross(GeoRect search);
-        public bool Selected;
+        public bool Selected { get; set; }
     }
 }

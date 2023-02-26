@@ -1,10 +1,12 @@
-﻿using System;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Geoinformatika
@@ -17,8 +19,8 @@ namespace Geoinformatika
         /// <summary>
         /// Заливка
         /// </summary>
-        SolidBrush SolidBrush;
-        public Polygon() : base()
+        SolidBrush SolidBrush { get; set; }
+        public Polygon()
         {
             SolidBrush = new SolidBrush(Color.Green);
         }
@@ -28,23 +30,24 @@ namespace Geoinformatika
             int n = 0;
             try
             {
-                n = Convert.ToInt32(splited[1]);
+                n = Convert.ToInt32(splited[1], CultureInfo.CurrentCulture);
+                const string regex = @"(-?\d*) ?(-?\d*)";
                 for (int i = 0; i < n; i++)
                 {
-                    int x1 = Convert.ToInt32(Regex.Match(splited[i + 2], @"(-?\d*) ?(-?\d*)").Groups[1].Value);
-                    int y1 = Convert.ToInt32(Regex.Match(splited[i + 2], @"(-?\d*) ?(-?\d*)").Groups[2].Value);  
+                    int x1 = Convert.ToInt32(Regex.Match(splited[i + 2], regex).Groups[1].Value);
+                    int y1 = Convert.ToInt32(Regex.Match(splited[i + 2], regex).Groups[2].Value);
                     AddNode(new Geopoint(x1, y1));
                 }
             }
             catch
             {
-                throw new Exception("Неверный формат");
+                throw new NotSupportedException("Неверный формат");
             }
             for (int i = n+2; i < splited.Count; i++)
             {
                 if (splited[i].Contains("PEN"))
                 {
-                    string penRegex = @"PEN\D(-?\d*), (-?\d*), (-?\d*)";
+                    const string penRegex = @"PEN\D(-?\d*), (-?\d*), (-?\d*)";
                     var match = Regex.Match(mifString, penRegex);
                     int width;
                     int type;
@@ -59,13 +62,13 @@ namespace Geoinformatika
                     }
                     catch
                     {
-                        throw new Exception("Неверная mif строка (Pen)");
+                        throw new NotSupportedException("Неверная mif строка (Pen)");
                     }
                     Style = new LineStyle(width, type, rGBColor);
                 }
                 if (splited[i].Contains("Brush"))
                 {
-                    string penRegex = @"Brush\D(-?\d*)";
+                    const string penRegex = @"Brush\D(-?\d*)";
                     var match = Regex.Match(mifString, penRegex);
                     int color;
                     Color rGBColor;
@@ -76,30 +79,30 @@ namespace Geoinformatika
                     }
                     catch
                     {
-                        throw new Exception("Неверная mif строка (Pen)");
+                        throw new NotSupportedException("Неверная mif строка (Pen)");
                     }
                     SolidBrush = new SolidBrush(rGBColor);
                 }
             }
         }
-    
+
         /// <summary>
         /// Отрисовка полигона
         /// </summary>
         /// <param name="e"></param>
         public override void Draw(PaintEventArgs e)
         {
-            System.Drawing.Pen pen = new Pen(Selected ? Color.DarkRed : Style.Color,Style.Wight);
+            System.Drawing.Pen pen = new Pen(Selected ? Color.DarkRed : Style.Color, Style.Wight);
             List<System.Drawing.Point> mapPoints = new List<System.Drawing.Point>();
             foreach (var item in Nodes)
             {
-                mapPoints.Add(layer.Map.MapToScreen(item));
+                mapPoints.Add(Layer.Map.MapToScreen(item));
             }
             e.Graphics.DrawPolygon(pen, mapPoints.ToArray());
             e.Graphics.FillPolygon(SolidBrush, mapPoints.ToArray());
             if (Selected)
             {
-                drawAreaSize(e);
+                DrawAreaSize(e);
             }
         }
         /// <summary>
@@ -123,14 +126,14 @@ namespace Geoinformatika
                 return Math.Abs(s) * 0.5;
             }
         }
-        protected void drawAreaSize(PaintEventArgs e)
+        protected void DrawAreaSize(PaintEventArgs e)
         {
-            string s = S.ToString();
-            if (S.ToString().Contains(',')) s = this.S.ToString().Substring(0, S.ToString().IndexOf(',') + 2);
+            string s = S.ToString(CultureInfo.CurrentCulture);
+            if (s.Replace('.', ',').Contains(',')) s = s.Substring(0, s.IndexOf(',') + 2);
             e.Graphics.DrawString(s,
                     new Font(FontFamily.GenericMonospace, emSize: 14),
                     new SolidBrush(Color.Blue),
-                    layer.Map.MapToScreen(new Geopoint((GetBounds().Xmax + GetBounds().Xmin) / 2, (GetBounds().Ymax + GetBounds().Ymin) / 2)));
+                    Layer.Map.MapToScreen(new Geopoint((GetBounds().Xmax + GetBounds().Xmin) / 2, (GetBounds().Ymax + GetBounds().Ymin) / 2)));
         }
     }
 }

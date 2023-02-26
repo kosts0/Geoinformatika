@@ -23,11 +23,13 @@ namespace Geoinformatika
 
         private void GridCreationForm_Load(object sender, EventArgs e)
         {
-            List<VectorLayer> layers = Map.Layers
+            VectorLayer[] layers = Map.Layers
                 .Where(l => l is VectorLayer)
-                .Select(l => l as VectorLayer).ToList();
+                .Select(l => l as VectorLayer).ToArray();
             comboBoxLayer.Items.Clear();
-            comboBoxLayer.Items.AddRange(layers.ToArray());
+#pragma warning disable S2330 // Array covariance should not be used
+            comboBoxLayer.Items.AddRange(layers);
+#pragma warning restore S2330 // Array covariance should not be used
             comboBoxLayer.SelectedIndex = 1;
         }
 
@@ -59,7 +61,7 @@ namespace Geoinformatika
             CountX.Text = countX.ToString();
             CountY.Text = countY.ToString();
 
-            int nearestCount = layer.objects.Count;
+            int nearestCount = layer.Objects.Count;
             if (nearestCount > 20) nearestCount /= 3;
 
             NearestCountTextBox.Text = nearestCount.ToString();
@@ -103,11 +105,11 @@ namespace Geoinformatika
         private void button1_Click(object sender, EventArgs e)
         {
             SaveButton_Click(sender, e);
-            var res = GridLayer.CalculateAccuracy(SelectedLayer.objects.Where(o => o is Point).Select(p => (p as Point).location).ToList());
+            var res = GridLayer.CalculateAccuracy(SelectedLayer.Objects.Where(o => o is Point).Select(p => (p as Point).Location).ToList());
             string text = "";
-            foreach(var result in res)
+            foreach (var result in res)
             {
-                text += result.Item1.ToString() + " ->" + result.Item2.ToString() + "\n"; 
+                text += result.Item1.ToString() + " ->" + result.Item2.ToString() + "\n";
             }
             MessageBox.Show(text);
         }

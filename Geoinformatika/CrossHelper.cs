@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Geoinformatika
 {
-    public class CrossHelper
+    public static class CrossHelper
     {
         /// <summary>
         /// Епсилон
         /// </summary>
-        const double EPS = 1E-9;
+        const double EPS = double.Epsilon;
         /// <summary>
         /// Проверка пересечения прямых 
         /// </summary>
@@ -28,18 +24,20 @@ namespace Geoinformatika
             double A2 = (c.Y - d.Y);
             double B2 = (d.X - c.X);
             double C2 = (-A2 * c.X - B2 * c.Y);
-            double zn = det(A1, B1, A2, B2);
-            if (zn != 0)
+            double zn = Det(A1, B1, A2, B2);
+            if (Math.Abs(zn) > double.Epsilon)
             {
-                double x = -det(C1, B1, C2, B2) * 1.0 / zn;
-                double y = -det(A1, C1, A2, C2) * 1.0 / zn;
-                return between(a.X, b.X, x) && between(a.Y, b.Y, y)
-                    && between(c.X, d.X, x) && between(c.Y, d.Y, y);
+                double x = -Det(C1, B1, C2, B2) * 1.0 / zn;
+                double y = -Det(A1, C1, A2, C2) * 1.0 / zn;
+                return Between(a.X, b.X, x) && Between(a.Y, b.Y, y)
+                    && Between(c.X, d.X, x) && Between(c.Y, d.Y, y);
             }
             else
-                return det(A1, C1, A2, C2) == 0 && det(B1, C1, B2, C2) == 0
+            {
+                return Math.Abs(Det(A1, C1, A2, C2)) <= double.Epsilon && Math.Abs(Det(B1, C1, B2, C2)) <= double.Epsilon
                     && intersect_1(a.X, b.X, c.X, d.X)
                     && intersect_1(a.Y, b.Y, c.Y, d.Y);
+            }
         }
         /// <summary>
         /// Определитель матрицы коэфициентов формулы Крамера
@@ -49,24 +47,24 @@ namespace Geoinformatika
         /// <param name="c"></param>
         /// <param name="d"></param>
         /// <returns></returns>
-        private static double det(double a, double b, double c, double d)
+        private static double Det(double a, double b, double c, double d)
         {
             return a * d - b * c;
         }
-        static bool between(double a, double b, double c)
+        static bool Between(double a, double b, double c)
         {
             return Math.Min(a, b) <= c + EPS && c <= Math.Max(a, b) + EPS;
         }
         static bool intersect_1(double a, double b, double c, double d)
         {
             if (a > b)
-            {//swap(a, b);
+            {
                 double cur = a;
                 a = b;
                 b = cur;
             }
             if (c > d)
-            { //swap(c, d);
+            {
                 double cur = c;
                 c = d;
                 d = cur;
