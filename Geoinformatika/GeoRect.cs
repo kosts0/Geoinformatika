@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Geoinformatika
 {
@@ -13,7 +12,7 @@ namespace Geoinformatika
     public class GeoRect
     {
         public double Xmin, Ymin, Xmax, Ymax;
-        public GeoRect(double xMin,double yMin,double xMax,double yMax)
+        public GeoRect(double xMin, double yMin, double xMax, double yMax)
         {
             Xmin = xMin;
             Ymin = yMin;
@@ -34,7 +33,7 @@ namespace Geoinformatika
         {
             if (!a.IsExist) return b;
             if (!b.IsExist) return a;
-            return new GeoRect(xMin: Math.Min(a.Xmin, b.Xmin),yMin: Math.Min(a.Ymin, b.Ymin),
+            return new GeoRect(xMin: Math.Min(a.Xmin, b.Xmin), yMin: Math.Min(a.Ymin, b.Ymin),
                 xMax: Math.Max(a.Xmax, b.Xmax), yMax: Math.Max(a.Ymax, b.Ymax));
         }
         public static bool IsIntersect(GeoRect A, GeoRect B)

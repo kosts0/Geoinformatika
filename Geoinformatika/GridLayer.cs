@@ -1,10 +1,10 @@
-﻿using System;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Geoinformatika
@@ -48,7 +48,7 @@ namespace Geoinformatika
             switch (interpalationParams.SearchType)
             {
                 case SearchType.SearchRadius:
-                   
+
                     searchRadius2 = interpalationParams.SearchRadius * interpalationParams.SearchRadius;
                     for (int i = 0; i < GridGeometry.CountY; i++)
                     {
@@ -144,7 +144,7 @@ namespace Geoinformatika
         public void InterpolateFromPoints(VectorLayer layer, InterpalationParams interpalationParams)
         {
             List<Geopoint> points = new List<Geopoint>();
-            foreach(var obj in layer.objects)
+            foreach (var obj in layer.objects)
             {
                 if (obj is Point) points.Add((obj as Point).location);
             }
@@ -154,7 +154,7 @@ namespace Geoinformatika
         /// Рассчитать невеязку методом перекрестной проверки для каждого p 
         /// </summary>
         /// <param name="points">Набор точек</param>
-        public static List<Tuple<double,double>> CalculateAccuracy(List<Geopoint> points)
+        public static List<Tuple<double, double>> CalculateAccuracy(List<Geopoint> points)
         {
             double minSigma;
             int minSigmaP;

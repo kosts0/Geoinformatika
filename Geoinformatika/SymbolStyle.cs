@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Geoinformatika
 {
@@ -35,14 +33,14 @@ namespace Geoinformatika
             Size = 14;
             Font = "Wingdings";
         }
-        public SymbolStyle(byte type,int size,Color color,string font)
+        public SymbolStyle(byte type, int size, Color color, string font)
         {
             Type = type;
             Size = size;
             Color = color;
             Font = font;
         }
-        public SymbolStyle(byte type,  Color color, int size)
+        public SymbolStyle(byte type, Color color, int size)
         {
             Type = type;
             Size = size;

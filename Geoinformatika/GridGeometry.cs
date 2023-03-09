@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 
 namespace Geoinformatika
 {
@@ -11,7 +9,7 @@ namespace Geoinformatika
     /// </summary>
     public class GridGeometry
     {
-        public GridGeometry(double xmin, double ymin, double cell, int countx,int county)
+        public GridGeometry(double xmin, double ymin, double cell, int countx, int county)
         {
             xMin = xmin;
             yMin = ymin;

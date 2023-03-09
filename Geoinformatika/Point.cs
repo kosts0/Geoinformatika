@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Geoinformatika
@@ -98,8 +97,8 @@ namespace Geoinformatika
             string symbol = Convert.ToChar(Style.Type).ToString();
             var font = new System.Drawing.Font(Style.Font, Style.Size);
             var measureString = e.Graphics.MeasureString(symbol, font);
-            mapToScreenPoint.X = (int) (mapToScreenPoint.X - measureString.Width / 2);
-            mapToScreenPoint.Y = (int) (mapToScreenPoint.Y - measureString.Height / 2);
+            mapToScreenPoint.X = (int)(mapToScreenPoint.X - measureString.Width / 2);
+            mapToScreenPoint.Y = (int)(mapToScreenPoint.Y - measureString.Height / 2);
             var brush = new System.Drawing.SolidBrush(Selected ? Color.DarkRed : Style.Color);
             e.Graphics.DrawString(symbol, font, brush, mapToScreenPoint);
             return;

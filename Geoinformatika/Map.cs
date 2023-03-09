@@ -1,11 +1,10 @@
-﻿using System;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Geoinformatika
@@ -19,7 +18,7 @@ namespace Geoinformatika
         /// <summary>
         /// Центр карты
         /// </summary>
-        public Geopoint MapCenter = new Geopoint(0,0);
+        public Geopoint MapCenter = new Geopoint(0, 0);
         /// <summary>
         /// Слои карты
         /// </summary>
@@ -52,15 +51,16 @@ namespace Geoinformatika
         /// Границы карты
         /// </summary>
         private double rectSize = 2.0;
-        public Polygon RulerPolygon = new Polygon() { Selected = true};
+        public Polygon RulerPolygon = new Polygon() { Selected = true };
         public LayerControl layerControl;
         public double? LastValue;
-        public GeoRect Bounds {
+        public GeoRect Bounds
+        {
 
             get
             {
                 GeoRect bounds = new GeoRect(0, 0, 0, 0);
-                foreach(var item in Layers)
+                foreach (var item in Layers)
                 {
                     if (item.Visible)
                     {
@@ -73,18 +73,18 @@ namespace Geoinformatika
         public Map()
         {
             InitializeComponent();
-            MapCenter = new Geopoint(0,0);
+            MapCenter = new Geopoint(0, 0);
             cosmeticLayer.Name = "Noname";
             this.AddLayer(cosmeticLayer);
             VectorLayer layer = new VectorLayer();
             layer.Name = "Noname";
             layer.Map = this;
             layer.AddObject(new Line(new Geopoint(-200, 0), new Geopoint(200, 0)));
-            layer.AddObject(new Line(new Geopoint(0,-200), new Geopoint(0,200)));
+            layer.AddObject(new Line(new Geopoint(0, -200), new Geopoint(0, 200)));
             layer.Visible = false;
             List<Geopoint> geopoints = new List<Geopoint>();
             geopoints.Add(new Geopoint(5, 5));
-            geopoints.Add(new Geopoint(100,300));
+            geopoints.Add(new Geopoint(100, 300));
             geopoints.Add(new Geopoint(50, 50));
             layer.AddObject(new Polyline(geopoints));
             geopoints.Clear();
@@ -141,20 +141,20 @@ namespace Geoinformatika
         {
             int x = (int)((geopoint.X - MapCenter.X) * MapScale + Width / 2 + 0.5);
             int y = (int)((MapCenter.Y - geopoint.Y) * MapScale + Height / 2 + 0.5);
-            return new System.Drawing.Point(x,y);
+            return new System.Drawing.Point(x, y);
         }
         public Geopoint ScreenToMap(System.Drawing.Point screenPoint)
         {
             double x = (screenPoint.X - Width / 2) / MapScale + MapCenter.X;
             double y = (Height / 2 - screenPoint.Y) / MapScale + MapCenter.Y;
-            return new Geopoint(x,y);
+            return new Geopoint(x, y);
         }
 
         private void Map_Paint(object sender, PaintEventArgs e)
         {
-            foreach(var layer in Layers)
+            foreach (var layer in Layers)
             {
-                if(layer.Visible) layer.Draw(e);
+                if (layer.Visible) layer.Draw(e);
             }
         }
 
@@ -171,7 +171,7 @@ namespace Geoinformatika
         private Polyline polyline = new Polyline();
         private void Map_MouseMove(object sender, MouseEventArgs e)
         {
-            
+
             if (e.Button == MouseButtons.Left && isMouseDown)
             {
                 switch (ActiveTool)
@@ -192,7 +192,7 @@ namespace Geoinformatika
                         {
                             cosmeticLayer.DeleteObject(polyline);
                             List<Geopoint> geopoints = new List<Geopoint>();
-                            geopoints.Add(new Geopoint(ScreenToMap(mouseDownPosition).X , ScreenToMap(mouseDownPosition).Y));
+                            geopoints.Add(new Geopoint(ScreenToMap(mouseDownPosition).X, ScreenToMap(mouseDownPosition).Y));
                             geopoints.Add(new Geopoint(ScreenToMap(mouseDownPosition).X + dx, ScreenToMap(mouseDownPosition).Y));
                             geopoints.Add(new Geopoint(ScreenToMap(mouseDownPosition).X + dx, ScreenToMap(mouseDownPosition).Y + dy));
                             geopoints.Add(new Geopoint(ScreenToMap(mouseDownPosition).X, ScreenToMap(mouseDownPosition).Y + dy));
@@ -225,11 +225,11 @@ namespace Geoinformatika
         private void Map_MouseUp(object sender, MouseEventArgs e)
         {
 
-                switch (ActiveTool)
-                {
-                    case MapToolType.Pen:
-                        break;
-                    case MapToolType.ZoomIn:
+            switch (ActiveTool)
+            {
+                case MapToolType.Pen:
+                    break;
+                case MapToolType.ZoomIn:
                     int dx = ((int)((int)(e.Location.X - mouseDownPosition.X)/MapScale));
                     int dy = (int)((e.Location.Y - mouseDownPosition.Y)/MapScale);
                     if (Math.Abs(dx) < Shake && Math.Abs(dy) < Shake)
@@ -253,21 +253,21 @@ namespace Geoinformatika
                         if (Math.Abs(dx) > Math.Abs(dy)) MapScale = (double)Height / (double)Math.Abs(dy);
                         else MapScale = (double)Width / (double)Math.Abs(dx);
                     }
-                    
-                        break;
-                    case MapToolType.ZoomOut:
-                        MapCenter = ScreenToMap(e.Location);
-                        MapScale = MapScale / 1.25;
-                        break;
-                    case MapToolType.SelectObject:
-                        if(Math.Abs(e.Location.X - mouseDownPosition.X) < Shake || 
-                        Math.Abs(e.Location.Y - mouseDownPosition.Y) < Shake)
+
+                    break;
+                case MapToolType.ZoomOut:
+                    MapCenter = ScreenToMap(e.Location);
+                    MapScale = MapScale / 1.25;
+                    break;
+                case MapToolType.SelectObject:
+                    if (Math.Abs(e.Location.X - mouseDownPosition.X) < Shake ||
+                    Math.Abs(e.Location.Y - mouseDownPosition.Y) < Shake)
                     {
                         if (!cntrlPressed)
                         {
-                            foreach(var layer in Layers.Select(_ => _).Where(l => l is VectorLayer).Reverse())
+                            foreach (var layer in Layers.Select(_ => _).Where(l => l is VectorLayer).Reverse())
                             {
-                                foreach(var obj in  (layer as VectorLayer).objects)
+                                foreach (var obj in (layer as VectorLayer).objects)
                                 {
                                     obj.Selected = false;
                                 }
@@ -275,14 +275,14 @@ namespace Geoinformatika
                         }
                         Geopoint searchCenter = ScreenToMap(e.Location);
                         GeoRect search = new GeoRect(searchCenter.X - rectSize/ MapScale, searchCenter.Y - rectSize/ MapScale, searchCenter.X + rectSize/ MapScale, searchCenter.Y + rectSize/ MapScale);
-                       // cosmeticLayer.DeleteObject(selectedRect);
+                        // cosmeticLayer.DeleteObject(selectedRect);
                         //selectedRect = new Polyline();
                         //selectedRect.AddNode(new Geopoint(searchCenter.X - rectSize / MapScale, searchCenter.Y - rectSize / MapScale));
                         //selectedRect.AddNode(new Geopoint(searchCenter.X - rectSize / MapScale, searchCenter.Y + rectSize / MapScale));
                         //selectedRect.AddNode(new Geopoint(searchCenter.X + rectSize / MapScale, searchCenter.Y + rectSize / MapScale));
                         //selectedRect.AddNode(new Geopoint(searchCenter.X + rectSize / MapScale, searchCenter.Y - rectSize / MapScale));
                         //selectedRect.AddNode(new Geopoint(searchCenter.X - rectSize / MapScale, searchCenter.Y - rectSize / MapScale));
-                        
+
                         MapObject searchObject = FindObject(search);
                         if (searchObject != null)
                         {
@@ -291,7 +291,7 @@ namespace Geoinformatika
                         //cosmeticLayer.AddObject(selectedRect);
                         Refresh();
                     }
-                        break;
+                    break;
                 case MapToolType.Ruler:
                     cosmeticLayer.DeleteObject(RulerPolygon);
                     RulerPolygon.Selected = true;
@@ -301,7 +301,7 @@ namespace Geoinformatika
                         cosmeticLayer.AddObject(RulerPolygon);
                     }
                     Refresh();
-                        break;
+                    break;
                 case MapToolType.GetValue:
                     foreach (var layer in Layers.Where(l => l is GridLayer).Select(l => l as GridLayer).Reverse())
                     {
@@ -311,19 +311,19 @@ namespace Geoinformatika
                     }
                     break;
                 default:
-                        break;
-                }
-                isMouseDown = false;
+                    break;
+            }
+            isMouseDown = false;
 
             Refresh();
         }
         private MapObject FindObject(GeoRect search)
         {
             MapObject result = null;
-            for(int i = Layers.Count - 1; i >= 0; i--)
+            for (int i = Layers.Count - 1; i >= 0; i--)
             {
                 if (Layers[i] is GridLayer) continue;
-                if(Layers[i].Visible) result = (Layers[i] as VectorLayer).FindObject(search);
+                if (Layers[i].Visible) result = (Layers[i] as VectorLayer).FindObject(search);
                 if (result != null) return result;
             }
             return result;
@@ -331,11 +331,11 @@ namespace Geoinformatika
         public void ZoomToAll()
         {
             GeoRect currentRect = this.Bounds;
-            MapCenter.X = (currentRect.Xmax + currentRect.Xmin) / 2; 
+            MapCenter.X = (currentRect.Xmax + currentRect.Xmin) / 2;
             MapCenter.Y = (currentRect.Ymax + currentRect.Ymin) / 2;
             double dx = currentRect.Xmax - currentRect.Xmin;
             double dy = currentRect.Ymax - currentRect.Ymin;
-            MapScale = Math.Min(Math.Min((double)Height / (double)Math.Abs(dy), (double)(Width / (double)Math.Abs(dx))),30);
+            MapScale = Math.Min(Math.Min((double)Height / (double)Math.Abs(dy), (double)(Width / (double)Math.Abs(dx))), 30);
             //if (Math.Abs(dx) < Math.Abs(dy)) MapScale = (double)Height / (double)Math.Abs(dy) * 0.8;
             //else MapScale = (double)(Width / (double)Math.Abs(dx)) * 0.8;
         }

@@ -1,10 +1,11 @@
-﻿using System;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Geoinformatika
@@ -12,7 +13,7 @@ namespace Geoinformatika
     /// <summary>
     /// Замкнутый объект из линий
     /// </summary>
-    public class Polygon : Polyline
+    public class Polygon : Polyline, IDisposable
     {
         /// <summary>
         /// Заливка
@@ -32,7 +33,7 @@ namespace Geoinformatika
                 for (int i = 0; i < n; i++)
                 {
                     int x1 = Convert.ToInt32(Regex.Match(splited[i + 2], @"(-?\d*) ?(-?\d*)").Groups[1].Value);
-                    int y1 = Convert.ToInt32(Regex.Match(splited[i + 2], @"(-?\d*) ?(-?\d*)").Groups[2].Value);  
+                    int y1 = Convert.ToInt32(Regex.Match(splited[i + 2], @"(-?\d*) ?(-?\d*)").Groups[2].Value);
                     AddNode(new Geopoint(x1, y1));
                 }
             }
@@ -82,14 +83,14 @@ namespace Geoinformatika
                 }
             }
         }
-    
+
         /// <summary>
         /// Отрисовка полигона
         /// </summary>
         /// <param name="e"></param>
         public override void Draw(PaintEventArgs e)
         {
-            System.Drawing.Pen pen = new Pen(Selected ? Color.DarkRed : Style.Color,Style.Wight);
+            System.Drawing.Pen pen = new Pen(Selected ? Color.DarkRed : Style.Color, Style.Wight);
             List<System.Drawing.Point> mapPoints = new List<System.Drawing.Point>();
             foreach (var item in Nodes)
             {
@@ -131,6 +132,11 @@ namespace Geoinformatika
                     new Font(FontFamily.GenericMonospace, emSize: 14),
                     new SolidBrush(Color.Blue),
                     layer.Map.MapToScreen(new Geopoint((GetBounds().Xmax + GetBounds().Xmin) / 2, (GetBounds().Ymax + GetBounds().Ymin) / 2)));
+        }
+
+        public void Dispose()
+        {
+            SolidBrush.Dispose();
         }
     }
 }

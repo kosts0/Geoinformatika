@@ -1,13 +1,13 @@
-﻿using System;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Geoinformatika
@@ -24,8 +24,8 @@ namespace Geoinformatika
         private void Pan_Click(object sender, EventArgs e)
         {
 
-                map1.cosmeticLayer.DeleteObject(map1.RulerPolygon);
-                RulerButton.BackColor = Color.White;
+            map1.cosmeticLayer.DeleteObject(map1.RulerPolygon);
+            RulerButton.BackColor = Color.White;
             map1.RulerPolygon = new Polygon();
             map1.ActiveTool = MapToolType.Pen;
             Pan.BackColor = Color.Red;
@@ -41,8 +41,8 @@ namespace Geoinformatika
         private void ZoomIn_Click(object sender, EventArgs e)
         {
 
-                map1.cosmeticLayer.DeleteObject(map1.RulerPolygon);
-                RulerButton.BackColor = Color.White;
+            map1.cosmeticLayer.DeleteObject(map1.RulerPolygon);
+            RulerButton.BackColor = Color.White;
             map1.RulerPolygon = new Polygon();
             map1.ActiveTool = MapToolType.ZoomIn;
             Pan.BackColor = Color.White;
@@ -58,8 +58,8 @@ namespace Geoinformatika
         private void ZoomOut_Click(object sender, EventArgs e)
         {
 
-                map1.cosmeticLayer.DeleteObject(map1.RulerPolygon);
-                RulerButton.BackColor = Color.White;
+            map1.cosmeticLayer.DeleteObject(map1.RulerPolygon);
+            RulerButton.BackColor = Color.White;
             map1.RulerPolygon = new Polygon();
             map1.ActiveTool = MapToolType.ZoomOut;
             Pan.BackColor = Color.White;
@@ -75,8 +75,8 @@ namespace Geoinformatika
         private void Center_Click(object sender, EventArgs e)
         {
 
-                map1.cosmeticLayer.DeleteObject(map1.RulerPolygon);
-                RulerButton.BackColor = Color.White;
+            map1.cosmeticLayer.DeleteObject(map1.RulerPolygon);
+            RulerButton.BackColor = Color.White;
             map1.RulerPolygon = new Polygon();
             Pan.BackColor = Color.White;
             ZoomIn.BackColor = Color.White;
@@ -92,8 +92,8 @@ namespace Geoinformatika
         private void SelectObject_Click(object sender, EventArgs e)
         {
 
-                map1.cosmeticLayer.DeleteObject(map1.RulerPolygon);
-                RulerButton.BackColor = Color.White;
+            map1.cosmeticLayer.DeleteObject(map1.RulerPolygon);
+            RulerButton.BackColor = Color.White;
             map1.RulerPolygon = new Polygon();
             map1.ActiveTool = MapToolType.SelectObject;
             Pan.BackColor = Color.White;
@@ -108,7 +108,7 @@ namespace Geoinformatika
 
         private void map1_MouseMove(object sender, MouseEventArgs e)
         {
-            
+
             Geopoint geopoint = map1.ScreenToMap(e.Location);
             toolStripStatusLabel2.Text = $"Координаты: {geopoint.X} {geopoint.Y}";
             toolStripStatusLabel3.Text = $"Текущий масштаб: {map1.MapScale}";
@@ -121,7 +121,7 @@ namespace Geoinformatika
             ZoomIn.BackColor = Color.White;
             ZoomOut.BackColor = Color.White;
             SelectObject.BackColor = Color.White;
-            if(RulerButton.BackColor == Color.Red)
+            if (RulerButton.BackColor == Color.Red)
             {
                 map1.cosmeticLayer.DeleteObject(map1.RulerPolygon);
                 RulerButton.BackColor = Color.White;
@@ -131,7 +131,7 @@ namespace Geoinformatika
             {
                 RulerButton.BackColor = Color.Red;
             }
-            
+
             map1.Cursor = Cursors.Default;
             map1.RulerPolygon = new Polygon();
 
@@ -140,8 +140,8 @@ namespace Geoinformatika
         private void LoadLayer_Click(object sender, EventArgs e)
         {
 
-                map1.cosmeticLayer.DeleteObject(map1.RulerPolygon);
-                RulerButton.BackColor = Color.White;
+            map1.cosmeticLayer.DeleteObject(map1.RulerPolygon);
+            RulerButton.BackColor = Color.White;
             map1.RulerPolygon = new Polygon();
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -151,9 +151,9 @@ namespace Geoinformatika
                     {
                         VectorLayer layer = new VectorLayer();
                         layer.Name = Regex.Match(openFileDialog1.FileName, @"\\(\w*).mif").Groups[1].Value;
-                        if(string.IsNullOrEmpty(layer.Name)) layer.Name = Regex.Match(openFileDialog1.FileName, @"\\(\w*).csv").Groups[1].Value;
+                        if (string.IsNullOrEmpty(layer.Name)) layer.Name = Regex.Match(openFileDialog1.FileName, @"\\(\w*).csv").Groups[1].Value;
                         layer.LoadFromFile(openFileDialog1.FileName);
-                        
+
                         map1.AddLayer(layer);
                         map1.RemoveLayer(map1.cosmeticLayer);
                         map1.AddLayer(map1.cosmeticLayer);
@@ -198,7 +198,7 @@ namespace Geoinformatika
 
         private void map1_MouseUp(object sender, MouseEventArgs e)
         {
-            if(map1.ActiveTool == MapToolType.GetValue)
+            if (map1.ActiveTool == MapToolType.GetValue)
             {
                 toolStripStatusLabel5.Text = $"Значение геополя: {map1.LastValue}";
             }
@@ -222,11 +222,11 @@ namespace Geoinformatika
                     gridLayer.InterpolateFromPoints(gridCreationForm.SelectedLayer, gridCreationForm.InterpalationParams);
                     gridLayer.Name = $"Grid from {gridCreationForm.SelectedLayer.Name}";
                     map1.AddLayer(gridLayer as AbstractLayer);
-                break;
+                    break;
                 case DialogResult.Yes:
                     switch (gridCreationForm.InterpalationParams.SearchType)
                     {
-                        
+
                         case SearchType.SearchRadius:
                             filePath = @"D:\TPU\Geoinformatika\Geoinformatika (28.02.2022)\Geoinformatika (1)\Geoinformatika\Geoinformatika\interpolationTimes.txt";
                             double maxR = Math.Min(gridCreationForm.GridGeometry.Xmax - gridCreationForm.GridGeometry.Xmin,
@@ -235,7 +235,7 @@ namespace Geoinformatika
                             double dt = (maxR - minR) / 30;
                             for (double radius = minR; radius <= maxR; radius += dt)
                             {
-                                
+
                                 GridLayer gridLayerWithRadius = new GridLayer(gridCreationForm.GridGeometry);
                                 gridCreationForm.InterpalationParams.SearchRadius = radius;
                                 TimeSpan startTime = DateTime.Now.TimeOfDay;
@@ -252,14 +252,14 @@ namespace Geoinformatika
                             break;
                         case SearchType.NearestCount:
                             filePath = @"D:\TPU\Geoinformatika\Geoinformatika (28.02.2022)\Geoinformatika (1)\Geoinformatika(29.03.2022)\Geoinformatika\interpolationPointsTimes.txt";
-                            
+
                             List<Geoinformatika.Geopoint> points = gridCreationForm.SelectedLayer.objects.Where(o => o is Point).Select(p => (p as Point).location).ToList();
                             int maxNearestCount = points.Count;
                             int minNearestCount = maxNearestCount / 50;
                             int step = (maxNearestCount - minNearestCount) / 20;
-                            for(int pointsCount = minNearestCount; pointsCount <= maxNearestCount; pointsCount+= step)
+                            for (int pointsCount = minNearestCount; pointsCount <= maxNearestCount; pointsCount+= step)
                             {
-                                
+
                                 GridLayer gridLayerWithPoints = new GridLayer(gridCreationForm.GridGeometry);
                                 gridCreationForm.InterpalationParams.NearestCount = pointsCount;
                                 TimeSpan startTime = DateTime.Now.TimeOfDay;
@@ -272,7 +272,7 @@ namespace Geoinformatika
                                 gridLayerWithPoints.Map = map1;
                                 gridLayerWithPoints.Visible = false;
                                 map1.AddLayer(gridLayerWithPoints as AbstractLayer);
-                                
+
                             }
                             break;
                     }
@@ -280,7 +280,7 @@ namespace Geoinformatika
                 default:
                     return;
             }
-            
+
         }
     }
 }

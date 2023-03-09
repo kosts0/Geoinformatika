@@ -1,11 +1,10 @@
-﻿using System;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Geoinformatika
@@ -105,9 +104,9 @@ namespace Geoinformatika
             SaveButton_Click(sender, e);
             var res = GridLayer.CalculateAccuracy(SelectedLayer.objects.Where(o => o is Point).Select(p => (p as Point).location).ToList());
             string text = "";
-            foreach(var result in res)
+            foreach (var result in res)
             {
-                text += result.Item1.ToString() + " ->" + result.Item2.ToString() + "\n"; 
+                text += result.Item1.ToString() + " ->" + result.Item2.ToString() + "\n";
             }
             MessageBox.Show(text);
         }

@@ -1,10 +1,11 @@
-﻿using System;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Geoinformatika
@@ -36,23 +37,23 @@ namespace Geoinformatika
             }
             if (splited.Last().Contains("PEN"))
             {
-                    string penRegex = @"PEN\D(-?\d*), (-?\d*), (-?\d*)";
-                    var match = Regex.Match(mifString, penRegex);
-                    int width;
-                    int type;
-                    int color;
-                    Color rGBColor;
-                    try
-                    {
-                        width = Convert.ToByte(match.Groups[1].Value);
-                        type = Convert.ToInt32(match.Groups[2].Value);
-                        color = Convert.ToInt32(match.Groups[3].Value);
-                        rGBColor = Color.FromArgb((color & 0xFF0000) / 65534, (color & 0xFF00) / 256, color & 0xFF);
-                    }
-                    catch
-                    {
-                        throw new Exception("Неверная mif строка (Pen)");
-                    }
+                string penRegex = @"PEN\D(-?\d*), (-?\d*), (-?\d*)";
+                var match = Regex.Match(mifString, penRegex);
+                int width;
+                int type;
+                int color;
+                Color rGBColor;
+                try
+                {
+                    width = Convert.ToByte(match.Groups[1].Value);
+                    type = Convert.ToInt32(match.Groups[2].Value);
+                    color = Convert.ToInt32(match.Groups[3].Value);
+                    rGBColor = Color.FromArgb((color & 0xFF0000) / 65534, (color & 0xFF00) / 256, color & 0xFF);
+                }
+                catch
+                {
+                    throw new Exception("Неверная mif строка (Pen)");
+                }
                 Style = new LineStyle(width, type, rGBColor);
             }
         }
@@ -90,7 +91,7 @@ namespace Geoinformatika
             System.Drawing.Pen pen = new System.Drawing.Pen(Selected ? Color.DarkRed : Style.Color, Style.Wight);
             pen.DashStyle = (System.Drawing.Drawing2D.DashStyle)Style.Type;
             List<System.Drawing.Point> mapPoints = new List<System.Drawing.Point>();
-            foreach(var item in Nodes)
+            foreach (var item in Nodes)
             {
                 mapPoints.Add(layer.Map.MapToScreen(item));
             }
@@ -111,17 +112,17 @@ namespace Geoinformatika
         public override MapObject IsCross(GeoRect search)
         {
             int crossCount = 0;
-            if (search.Ymin >= this.GetBounds().Ymin && search.Ymin <= this.GetBounds().Ymax 
+            if (search.Ymin >= this.GetBounds().Ymin && search.Ymin <= this.GetBounds().Ymax
                 && search.Xmin>= this.GetBounds().Xmin && search.Xmax <= this.GetBounds().Xmax)
             {
                 Geopoint startLinePoint = new Geopoint(search.Xmin, search.Ymin);
                 Geopoint endLinePoint = new Geopoint(this.GetBounds().Xmax, search.Ymin);
-                
-                for(int i = 0; i < Nodes.Count - 1; i++)
+
+                for (int i = 0; i < Nodes.Count - 1; i++)
                 {
                     if (CrossHelper.IsCrossLines(Nodes[i], Nodes[i + 1], startLinePoint, endLinePoint)) crossCount++;
                 }
-                
+
             }
             if (crossCount % 2 != 0) return this;
             return null;
