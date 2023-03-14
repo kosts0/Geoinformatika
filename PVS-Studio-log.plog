@@ -1,0 +1,259 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Solution_Path">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SolutionPath" type="xs:string" minOccurs="0" />
+                <xs:element name="SolutionVersion" type="xs:string" minOccurs="0" />
+                <xs:element name="PlogVersion" type="xs:unsignedInt" minOccurs="0" />
+                <xs:element name="ModificationDate" msdata:DateTimeMode="Utc" type="xs:dateTime" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="PVS-Studio_Analysis_Log">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="FavIcon" type="xs:boolean" minOccurs="0" msdata:Ordinal="0" />
+                <xs:element name="Level" type="xs:unsignedInt" minOccurs="0" msdata:Ordinal="1" />
+                <xs:element name="DefaultOrder" type="xs:int" minOccurs="0" msdata:Ordinal="2" />
+                <xs:element name="ErrorCode" type="xs:string" msdata:Ordinal="3" />
+                <xs:element name="Message" type="xs:string" msdata:Ordinal="4" />
+                <xs:element name="Project" type="xs:string" minOccurs="0" msdata:Ordinal="5" />
+                <xs:element name="ShortFile" type="xs:string" minOccurs="0" msdata:Ordinal="6" />
+                <xs:element name="Line" type="xs:int" msdata:Ordinal="7" />
+                <xs:element name="FalseAlarm" type="xs:boolean" minOccurs="0" msdata:Ordinal="8" />
+                <xs:element name="File" type="xs:string" msdata:Ordinal="9" />
+                <xs:element name="CodePrev" type="xs:unsignedInt" minOccurs="0" msdata:Ordinal="10" />
+                <xs:element name="CodeCurrent" type="xs:unsignedInt" minOccurs="0" msdata:Ordinal="11" />
+                <xs:element name="CodeNext" type="xs:unsignedInt" minOccurs="0" msdata:Ordinal="12" />
+                <xs:element name="TrialMessage" type="xs:boolean" minOccurs="0" msdata:Ordinal="13" />
+                <xs:element name="Analyzer" type="xs:int" minOccurs="0" msdata:Ordinal="14" />
+                <xs:element name="LineExtension" type="xs:string" minOccurs="0" msdata:Ordinal="15" />
+                <xs:element name="Retired" type="xs:boolean" default="false" minOccurs="0" msdata:Ordinal="16" />
+                <xs:element name="AnalyzedSourceFiles" type="xs:string" minOccurs="0" msdata:Ordinal="17" />
+                <xs:element name="CWECode" type="xs:string" minOccurs="0" msdata:Ordinal="18" />
+                <xs:element name="SAST" type="xs:string" minOccurs="0" msdata:Ordinal="19" />
+                <xs:element name="Positions" msdata:DataType="ProgramVerificationSystems.PVSStudio.CommonTypes.SourceFilePositions, PVS-Studio-vs2022, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" type="xs:anyType" minOccurs="0" msdata:Ordinal="20" />
+                <xs:element name="MISRA" type="xs:string" minOccurs="0" msdata:Ordinal="21" />
+              </xs:sequence>
+              <xs:attribute name="ErrorCodeNumeric" msdata:ReadOnly="true" msdata:Expression="IIF(LEN(ErrorCode) &lt; 2 OR (SUBSTRING(ErrorCode, 1, 1) &lt;&gt; 'V'), 0, CONVERT(SUBSTRING(ErrorCode, 2, LEN(ErrorCode) - 1), 'System.UInt32'))" type="xs:unsignedInt" use="prohibited" />
+              <xs:attribute name="CWECodeNumeric" msdata:ReadOnly="true" msdata:Expression="ISNULL(IIF(LEN(CWECode) &lt; 4 + 1 OR (SUBSTRING(CWECode, 1, 4) &lt;&gt; 'CWE-'), 4294967295, CONVERT(SUBSTRING(CWECode, 4 + 1, LEN(CWECode) - 4), 'System.UInt32')), 4294967295)" type="xs:unsignedInt" use="prohibited" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//PVS-Studio_Analysis_Log" />
+        <xs:field xpath="Line" />
+        <xs:field xpath="Message" />
+        <xs:field xpath="File" />
+        <xs:field xpath="ErrorCode" />
+      </xs:unique>
+    </xs:element>
+  </xs:schema>
+  <Solution_Path>
+    <SolutionPath>D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika.sln</SolutionPath>
+    <SolutionVersion>17.0</SolutionVersion>
+    <PlogVersion>7</PlogVersion>
+    <ModificationDate>2023-03-13T21:27:25.9432973Z</ModificationDate>
+  </Solution_Path>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>1</DefaultOrder>
+    <ErrorCode>V051</ErrorCode>
+    <Message>Some of the references in 'Geoinformatika' project are missing or incorrect. The analysis results could be incomplete. Consider making the project fully compilable and building it before analysis.</Message>
+    <Project>Geoinformatika</Project>
+    <ShortFile />
+    <Line>0</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File />
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>0</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>0</Analyzer>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>2</DefaultOrder>
+    <ErrorCode>V3008</ErrorCode>
+    <Message>The 'match' variable is assigned values twice successively. Perhaps this is a mistake. Check lines: 76, 63.</Message>
+    <Project>Geoinformatika</Project>
+    <ShortFile>Point.cs</ShortFile>
+    <Line>76</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika\Point.cs</File>
+    <CodePrev>126573715</CodePrev>
+    <CodeCurrent>3285698904</CodeCurrent>
+    <CodeNext>19097</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-563</CWECode>
+    <Positions>
+      <Position lines="76,63">D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika\Point.cs</Position>
+    </Positions>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>3</DefaultOrder>
+    <ErrorCode>V3008</ErrorCode>
+    <Message>The 'match' variable is assigned values twice successively. Perhaps this is a mistake. Check lines: 44, 26.</Message>
+    <Project>Geoinformatika</Project>
+    <ShortFile>Line.cs</ShortFile>
+    <Line>44</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika\Line.cs</File>
+    <CodePrev>1731663967</CodePrev>
+    <CodeCurrent>1547530169</CodeCurrent>
+    <CodeNext>18795</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-563</CWECode>
+    <Positions>
+      <Position lines="44,26">D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika\Line.cs</Position>
+    </Positions>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>4</DefaultOrder>
+    <ErrorCode>V3072</ErrorCode>
+    <Message>The 'Map' class containing IDisposable members does not itself implement IDisposable. Inspect: RulerPolygon.</Message>
+    <Project>Geoinformatika</Project>
+    <ShortFile>Map.cs</ShortFile>
+    <Line>12</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika\Map.cs</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1352189761</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <Positions>
+      <Position lines="12,52">D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika\Map.cs</Position>
+    </Positions>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>5</DefaultOrder>
+    <ErrorCode>V3041</ErrorCode>
+    <Message>The expression was implicitly cast from 'int' type to 'double' type. Consider utilizing an explicit type cast to avoid the loss of a fractional part. An example: double A = (double)(X) / Y;.</Message>
+    <Project>Geoinformatika</Project>
+    <ShortFile>Map.cs</ShortFile>
+    <Line>258</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika\Map.cs</File>
+    <CodePrev>3124738252</CodePrev>
+    <CodeCurrent>2419799768</CodeCurrent>
+    <CodeNext>2419799184</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-682</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>6</DefaultOrder>
+    <ErrorCode>V3041</ErrorCode>
+    <Message>The expression was implicitly cast from 'int' type to 'double' type. Consider utilizing an explicit type cast to avoid the loss of a fractional part. An example: double A = (double)(X) / Y;.</Message>
+    <Project>Geoinformatika</Project>
+    <ShortFile>Map.cs</ShortFile>
+    <Line>259</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika\Map.cs</File>
+    <CodePrev>2419799768</CodePrev>
+    <CodeCurrent>2419799184</CodeCurrent>
+    <CodeNext>3124583222</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-682</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>7</DefaultOrder>
+    <ErrorCode>V5609</ErrorCode>
+    <Message>Possible path traversal vulnerability inside method. The first argument 'path' contains potentially tainted data used as path.</Message>
+    <Project>Geoinformatika</Project>
+    <ShortFile>VectorLayer.cs</ShortFile>
+    <Line>72</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika\VectorLayer.cs</File>
+    <CodePrev>67278</CodePrev>
+    <CodeCurrent>66843897</CodeCurrent>
+    <CodeNext>2337</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>9</Analyzer>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-22</CWECode>
+    <SAST>OWASP-12.3.1</SAST>
+    <Positions>
+      <Position lines="72,83,66">D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika\VectorLayer.cs</Position>
+    </Positions>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>8</DefaultOrder>
+    <ErrorCode>V5609</ErrorCode>
+    <Message>Possible path traversal vulnerability inside method. The first argument 'path' contains potentially tainted data used as path.</Message>
+    <Project>Geoinformatika</Project>
+    <ShortFile>VectorLayer.cs</ShortFile>
+    <Line>75</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika\VectorLayer.cs</File>
+    <CodePrev>67262</CodePrev>
+    <CodeCurrent>66786553</CodeCurrent>
+    <CodeNext>2337</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>9</Analyzer>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-22</CWECode>
+    <SAST>OWASP-12.3.1</SAST>
+    <Positions>
+      <Position lines="75,107,66">D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika\VectorLayer.cs</Position>
+    </Positions>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>9</DefaultOrder>
+    <ErrorCode>V3022</ErrorCode>
+    <Message>Expression 'writer' is always null. The operator '?.' is meaningless.</Message>
+    <Project>Geoinformatika</Project>
+    <ShortFile>Form1.cs</ShortFile>
+    <Line>258</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\TPUProjects\Geoinformatika(29.03.2022)\Geoinformatika\Form1.cs</File>
+    <CodePrev>2337</CodePrev>
+    <CodeCurrent>12553649</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-570</CWECode>
+  </PVS-Studio_Analysis_Log>
+</NewDataSet>

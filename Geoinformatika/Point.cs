@@ -1,4 +1,7 @@
-﻿using System;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Drawing;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -70,17 +73,17 @@ namespace Geoinformatika
                 throw new NotSupportedException("Неверная mif строка");
             }
             const string stymbolReges = @"Symbol\D(\d*), (\d*), (\d*)";
-            match = Regex.Match(mifString, stymbolReges);
+            var symbolMatch = Regex.Match(mifString, stymbolReges);
             byte type;
             int color;
             Color rGBColor;
             int size;
             try
             {
-                type = Convert.ToByte(match.Groups[1].Value, CultureInfo.CurrentCulture);
-                color = Convert.ToInt32(match.Groups[2].Value, CultureInfo.CurrentCulture);
+                type = Convert.ToByte(symbolMatch.Groups[1].Value, CultureInfo.CurrentCulture);
+                color = Convert.ToInt32(symbolMatch.Groups[2].Value, CultureInfo.CurrentCulture);
                 rGBColor = Color.FromArgb((color & 0xFF0000) / 65534, (color & 0xFF00) / 256, color & 0xFF);
-                size = Convert.ToInt32(match.Groups[3].Value, CultureInfo.CurrentCulture);
+                size = Convert.ToInt32(symbolMatch.Groups[3].Value, CultureInfo.CurrentCulture);
             }
             catch
             {

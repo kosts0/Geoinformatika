@@ -14,8 +14,12 @@ namespace Geoinformatika
     /// <summary>
     /// Замкнутый объект из линий
     /// </summary>
-    public class Polygon : Polyline
+    public class Polygon : Polyline, IDisposable
     {
+        public void Dispose()
+        {
+            SolidBrush.Dispose();
+        }
         /// <summary>
         /// Заливка
         /// </summary>
@@ -135,5 +139,7 @@ namespace Geoinformatika
                     new SolidBrush(Color.Blue),
                     Layer.Map.MapToScreen(new Geopoint((GetBounds().Xmax + GetBounds().Xmin) / 2, (GetBounds().Ymax + GetBounds().Ymin) / 2)));
         }
+
+
     }
 }

@@ -1,15 +1,23 @@
-﻿using System;
+﻿
+// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace Geoinformatika
 {
-    public partial class LayerControl : UserControl
+    public partial class LayerControl : UserControl, IDisposable
     {
         public LayerControl()
         {
             InitializeComponent();
+        }
+        public void Dispose()
+        {
+            Map.Dispose();
         }
         public Map Map { get; set; }
         public void RefreshList()

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Drawing;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -38,16 +41,16 @@ namespace Geoinformatika
                 throw new NotSupportedException("Неверная mif строка");
             }
             const string penRegex = @"PEN\D(-?\d*), (-?\d*), (-?\d*)";
-            match = Regex.Match(mifString, penRegex);
+            var styleMatch = Regex.Match(mifString, penRegex);
             int width;
             int type;
             int color;
             Color rGBColor;
             try
             {
-                width = Convert.ToByte(match.Groups[1].Value, CultureInfo.CurrentCulture);
-                type = Convert.ToInt32(match.Groups[2].Value, CultureInfo.CurrentCulture);
-                color = Convert.ToInt32(match.Groups[3].Value, CultureInfo.CurrentCulture);
+                width = Convert.ToByte(styleMatch.Groups[1].Value, CultureInfo.CurrentCulture);
+                type = Convert.ToInt32(styleMatch.Groups[2].Value, CultureInfo.CurrentCulture);
+                color = Convert.ToInt32(styleMatch.Groups[3].Value, CultureInfo.CurrentCulture);
                 rGBColor = Color.FromArgb((color & 0xFF0000) / 65534, (color & 0xFF00) / 256, color & 0xFF);
             }
             catch

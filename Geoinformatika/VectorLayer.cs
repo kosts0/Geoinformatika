@@ -63,19 +63,19 @@ namespace Geoinformatika
             }
             return result;
         }
-        public override void LoadFromFile(string fileName)
+        public override void LoadFromFile(string path)
         {
-            string fileExt = Path.GetExtension(fileName);
+            string fileExt = Path.GetExtension(path);
             switch (fileExt)
             {
                 case ".csv":
-                    UploadCsvFile(fileName);
+                    UploadCsvFile(path);
                     break;
                 case ".mif":
-                    UploadMifFile(fileName);
+                    UploadMifFile(path);
                     break;
                 default:
-                    throw new NotSupportedException($"Нет реализации для {fileName}");
+                    throw new NotSupportedException($"Нет реализации для {path}");
             }
         }
         private void UploadCsvFile(string fileName)

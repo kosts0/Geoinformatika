@@ -1,4 +1,7 @@
-﻿using System;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -30,7 +33,6 @@ namespace Geoinformatika
             Center.BackColor = Color.White;
             SelectObject.BackColor = Color.White;
             map1.Cursor = Cursors.Hand;
-            RulerButton.BackColor = Color.White;
             map1.RulerPolygon = new Polygon();
         }
 
@@ -47,7 +49,6 @@ namespace Geoinformatika
             Center.BackColor = Color.White;
             SelectObject.BackColor = Color.White;
             map1.Cursor = Cursors.Default;
-            RulerButton.BackColor = Color.White;
             map1.RulerPolygon = new Polygon();
         }
 
@@ -64,7 +65,6 @@ namespace Geoinformatika
             Center.BackColor = Color.White;
             SelectObject.BackColor = Color.White;
             map1.Cursor = Cursors.Default;
-            RulerButton.BackColor = Color.White;
             map1.RulerPolygon = new Polygon();
         }
 
@@ -80,7 +80,6 @@ namespace Geoinformatika
             Center.BackColor = Color.Red;
             SelectObject.BackColor = Color.White;
             map1.Cursor = Cursors.Default;
-            RulerButton.BackColor = Color.White;
             map1.ZoomToAll();
             map1.RulerPolygon = new Polygon();
         }
@@ -98,7 +97,6 @@ namespace Geoinformatika
             Center.BackColor = Color.White;
             SelectObject.BackColor = Color.Red;
             map1.Cursor = Cursors.Default;
-            RulerButton.BackColor = Color.White;
             map1.RulerPolygon = new Polygon();
         }
 
@@ -218,6 +216,7 @@ namespace Geoinformatika
                     gridCreationForm.GridGeometry.Ymax - gridCreationForm.GridGeometry.Ymin) / 2;
                     double minR = maxR / 20;
                     double dt = (maxR - minR) / 30;
+                    writer = new StreamWriter(filePath, true);
                     for (double radius = minR; radius <= maxR; radius += dt)
                     {
 
@@ -225,12 +224,12 @@ namespace Geoinformatika
                         gridCreationForm.InterpalationParams.SearchRadius = radius;
                         TimeSpan startTime = DateTime.Now.TimeOfDay;
                         gridLayerWithRadius.InterpolateFromPoints(gridCreationForm.SelectedLayer, gridCreationForm.InterpalationParams);
-                        writer = new StreamWriter(filePath, true);
                         writer.WriteLine($"{radius}; {(DateTime.Now.TimeOfDay - startTime).TotalMilliseconds}");
                         gridLayerWithRadius.Name = $"r {radius} Grid from {gridCreationForm.SelectedLayer.Name}";
                         gridLayerWithRadius.Map = map1;
                         gridLayerWithRadius.Visible = false;
                         map1.AddLayer(gridLayerWithRadius);
+                        writer.Dispose();
                     }
                     break;
                 case SearchType.NearestCount:
@@ -240,23 +239,23 @@ namespace Geoinformatika
                     int maxNearestCount = points.Count;
                     int minNearestCount = maxNearestCount / 50;
                     int step = (maxNearestCount - minNearestCount) / 20;
+                    writer = new StreamWriter(filePath, true);
                     for (int pointsCount = minNearestCount; pointsCount <= maxNearestCount; pointsCount+= step)
                     {
-
                         GridLayer gridLayerWithPoints = new GridLayer(gridCreationForm.GridGeometry);
                         gridCreationForm.InterpalationParams.NearestCount = pointsCount;
                         TimeSpan startTime = DateTime.Now.TimeOfDay;
                         gridLayerWithPoints.InterpolateFromPoints(points, gridCreationForm.InterpalationParams);
-                        writer = new StreamWriter(filePath, true);
                         writer.WriteLine($"{pointsCount}; {(DateTime.Now.TimeOfDay - startTime).TotalMilliseconds}");
                         gridLayerWithPoints.Name = $"p {pointsCount} Grid from {gridCreationForm.SelectedLayer.Name}";
                         gridLayerWithPoints.Map = map1;
                         gridLayerWithPoints.Visible = false;
                         map1.AddLayer(gridLayerWithPoints as AbstractLayer);
+                        writer.Dispose();
                     }
                     break;
                 default: throw new NotSupportedException($"Нет реализации для {gridCreationForm.InterpalationParams.SearchType}");
-                    writer?.Dispose();
+                    return;
             }
         }
         private void InterpolatioGrid()

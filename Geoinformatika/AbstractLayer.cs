@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System.Windows.Forms;
 
 namespace Geoinformatika
 {
@@ -26,7 +29,7 @@ namespace Geoinformatika
             }
 
         }
-        public abstract void LoadFromFile(string fileName);
+        public abstract void LoadFromFile(string path);
         public abstract void Draw(PaintEventArgs e);
         /// <summary>
         /// Граница слоя

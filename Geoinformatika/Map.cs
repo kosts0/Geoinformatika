@@ -1,4 +1,7 @@
-﻿using System;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -6,8 +9,12 @@ using System.Windows.Forms;
 
 namespace Geoinformatika
 {
-    public partial class Map : UserControl
+    public partial class Map : UserControl, IDisposable
     {
+        public void Dispose()
+        {
+            RulerPolygon.Dispose();
+        }
         /// <summary>
         /// Масштаб
         /// </summary>
@@ -252,8 +259,8 @@ namespace Geoinformatika
             else
             {
                 CosmeticLayer.DeleteObject(polyline);
-                MapCenter.X = (ScreenToMap(mouseDownPosition).X) + dx / 2;
-                MapCenter.Y = (ScreenToMap(mouseDownPosition).Y) - dy / 2;
+                MapCenter.X = (ScreenToMap(mouseDownPosition).X) + dx / 2.0;
+                MapCenter.Y = (ScreenToMap(mouseDownPosition).Y) - dy / 2.0;
                 MapScale = Math.Abs(dx) > Math.Abs(dy) ? (double)Height / (double)Math.Abs(dy) : (double)Width / (double)Math.Abs(dx);
             }
         }

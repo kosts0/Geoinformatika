@@ -240,7 +240,7 @@ namespace Geoinformatika
             }
         }
         private readonly double?[,] matrix;
-        public override void LoadFromFile(string fileName)
+        public override void LoadFromFile(string path)
         {
         }
 
