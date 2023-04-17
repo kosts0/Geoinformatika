@@ -73,11 +73,6 @@ namespace Geoinformatika
             layer.Name = "Noname";
             this.AddLayer(layer);
             layer.Visible = false;
-            //GridLayer gridLayer = new GridLayer(new GridGeometry(0,0,5,10,10));
-            //gridLayer.Map = this;
-            //gridLayer.Name = "Debug layer";
-            //Layers.Add(gridLayer);
-            //gridLayer.InterpolateFromPoints(new List<Geopoint>() { new Geopoint(1, 1, 10), new Geopoint(2, 2, -3), new Geopoint(4, 5, 15) }, new InterpalationParams() { SearchType = SearchType.SearchRadius, SearchRadius = 10 });
         }
         public void AddLayer(AbstractLayer layer)
         {
@@ -155,7 +150,6 @@ namespace Geoinformatika
         private Polyline polyline = new Polyline();
         public void Map_MouseMove(object sender, MouseEventArgs e)
         {
-
             if (e.Button == MouseButtons.Left && IsMouseDown)
             {
                 switch (ActiveTool)
