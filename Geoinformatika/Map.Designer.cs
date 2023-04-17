@@ -32,11 +32,12 @@
             // 
             // Map
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Map";
-            this.Size = new System.Drawing.Size(154, 151);
+            this.Size = new System.Drawing.Size(205, 186);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Map_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Map_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Map_KeyUp);

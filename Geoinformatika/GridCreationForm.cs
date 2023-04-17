@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Geoinformatika
@@ -27,9 +22,7 @@ namespace Geoinformatika
                 .Where(l => l is VectorLayer)
                 .Select(l => l as VectorLayer).ToArray();
             comboBoxLayer.Items.Clear();
-#pragma warning disable S2330 // Array covariance should not be used
             comboBoxLayer.Items.AddRange(layers);
-#pragma warning restore S2330 // Array covariance should not be used
             comboBoxLayer.SelectedIndex = 1;
         }
 
@@ -90,9 +83,18 @@ namespace Geoinformatika
             VectorLayer layer = (VectorLayer)comboBoxLayer.SelectedItem;
             if (string.IsNullOrEmpty(CellTextBox.Text)) return;
             double cell = CellTextBox.Text.ToDouble();
-            //if (string.IsNullOrEmpty(XMaxTextBox.Text) || string.IsNullOrEmpty(YMaxTextBox.Text)) return;
-            int countX = (int)((int)(XMaxTextBox.Text.ToDouble() - XMinTextBox.Text.ToDouble()) / cell);
-            int countY = (int)((YMaxTextBox.Text.ToDouble() - XMinTextBox.Text.ToDouble()) / cell);
+            var bounds = layer.GetBounds;
+            int countX, countY;
+            if ((bounds.Xmax - bounds.Xmin) > (bounds.Ymax - bounds.Ymin))
+            {
+                countX = 100;
+                countY = (int)((bounds.Ymax - bounds.Ymin) / cell + 1);
+            }
+            else
+            {
+                countY = 100;
+                countX = (int)((bounds.Xmax - bounds.Xmin) / cell + 1);
+            }
             CountX.Text = countX.ToString();
             CountY.Text = countY.ToString();
         }

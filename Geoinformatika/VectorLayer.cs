@@ -1,7 +1,4 @@
-﻿// This is a personal academic project. Dear PVS-Studio, please check it.
-
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -92,17 +89,23 @@ namespace Geoinformatika
                 splited.RemoveAt(splited.Count - 1);
                 foreach (string line in splited)
                 {
-                    double x = Convert.ToDouble(line.Split(';')[0]);
-                    double y = Convert.ToDouble(line.Split(';')[1]);
-                    double z = Convert.ToDouble(line.Split(';')[2]);
+                    double x, y, z;
+                    try
+                    {
+                        x = Convert.ToDouble(line.Split(';')[0]);
+                        y = Convert.ToDouble(line.Split(';')[1]);
+                        z = Convert.ToDouble(line.Split(';')[2]);
+                    }
+                    catch (System.FormatException)
+                    {
+                        throw new NotSupportedException("Некорректная csv строка");
+                    }
                     points.Add(new Geopoint(x, y, z));
                     AddObject(new Point(new Geopoint(x, y, z)));
                 }
             }
         }
-#pragma warning disable S1541, S3776 // TODO: (26.02.2023) упростить реализацию метода
         private void UploadMifFile(string fileName)
-#pragma warning restore S1541, S3776
         {
             using (FileStream fstream = File.OpenRead(fileName))
             {
@@ -171,10 +174,5 @@ namespace Geoinformatika
                 }
             }
         }
-        // 2 файла, 1 координатная система
-        // 2 с объектами разных типов
-        //отображаем только один,
-        //можно делать вручную, а можно программно делать запись
-        //сплитим по строкам, смотрим на ключевое слово первое и рисуем потом
     }
 }

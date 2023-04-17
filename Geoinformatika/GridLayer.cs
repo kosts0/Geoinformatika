@@ -1,7 +1,4 @@
-﻿// This is a personal academic project. Dear PVS-Studio, please check it.
-
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -44,42 +41,7 @@ namespace Geoinformatika
         }
         private void RefreshMatrixCoordinatesByPoints(int i, int j, List<Geopoint> points, InterpalationParams interpalationParams)
         {
-            bool f = false;
-            double x = GridGeometry.Xmin + j * GridGeometry.Cell;
-            double y = GridGeometry.Ymin + i * GridGeometry.Cell;
-            double sum1 = 0;
-            double sum2 = 0;
-            double rp;
-            var searchRadius2 = interpalationParams.SearchRadius * interpalationParams.SearchRadius;
-            for (int k = 0; k < points.Count; k++)
-            {
-                double r2 = (points[k].X - x) * (points[k].X - x) + (points[k].Y - y) * (points[k].Y - y);
-                if (Math.Abs(r2) <= double.Epsilon)
-                {
-                    sum1 = points[k].Z;
-                    sum2 = 1;
-                    f = true;
-#pragma warning disable S1227 // break statements should not be used except for switch cases
-                    break;
-#pragma warning restore S1227 // break statements should not be used except for switch cases
-                }
-                if (r2 <= searchRadius2)
-                {
-                    f = true;
-
-                    rp =interpalationParams.Power == DefaultPopularInterpolationParamsPower ? r2 : Math.Pow(Math.Sqrt(r2), interpalationParams.Power);
-                    sum1 += points[k].Z / rp;
-                    sum2 += 1 / rp;
-                }
-            }
-            if (f)
-            {
-                matrix[i, j] = sum1 / sum2;
-            }
-            else
-            {
-                matrix[i, j] = null;
-            }
+            
         }
         private void InterpolateFromPointsBySearchRadius(List<Geopoint> points, InterpalationParams interpalationParams)
         {
@@ -88,13 +50,44 @@ namespace Geoinformatika
 
                 for (int j = 0; j < GridGeometry.CountX; j++)
                 {
-                    RefreshMatrixCoordinatesByPoints(i, j, points, interpalationParams);
+                    bool f = false;
+                    double x = GridGeometry.Xmin + j * GridGeometry.Cell;
+                    double y = GridGeometry.Ymin + i * GridGeometry.Cell;
+                    double sum1 = 0;
+                    double sum2 = 0;
+                    double rp;
+                    var searchRadius2 = interpalationParams.SearchRadius * interpalationParams.SearchRadius;
+                    for (int k = 0; k < points.Count; k++)
+                    {
+                        double r2 = (points[k].X - x) * (points[k].X - x) + (points[k].Y - y) * (points[k].Y - y);
+                        if (Math.Abs(r2) <= double.Epsilon)
+                        {
+                            sum1 = points[k].Z;
+                            sum2 = 1;
+                            f = true;
+                            break;
+                        }
+                        if (r2 <= searchRadius2)
+                        {
+                            f = true;
+
+                            rp =interpalationParams.Power == DefaultPopularInterpolationParamsPower ? r2 : Math.Pow(Math.Sqrt(r2), interpalationParams.Power);
+                            sum1 += points[k].Z / rp;
+                            sum2 += 1 / rp;
+                        }
+                    }
+                    if (f)
+                    {
+                        matrix[i, j] = sum1 / sum2;
+                    }
+                    else
+                    {
+                        matrix[i, j] = null;
+                    }
                 }
             }
         }
-#pragma warning disable S3776 // Cognitive Complexity of methods should not be too high
         private void InterpolateFromPointsByNearestCount(IEnumerable<Geopoint> points, InterpalationParams interpalationParams)
-#pragma warning restore S3776 // Cognitive Complexity of methods should not be too high
         {
             double sum1;
             double sum2;
@@ -115,7 +108,6 @@ namespace Geoinformatika
                     for (int k = 0; k < sorted.Count && k < interpalationParams.NearestCount; k++)
                     {
                         rp =interpalationParams.Power == DefaultPopularInterpolationParamsPower ? sorted[k].Item1 : Math.Pow(Math.Sqrt(sorted[k].Item1), interpalationParams.Power);
-#pragma warning disable S134 // Control flow statements "if", "switch", "for", "foreach", "while", "do"  and "try" should not be nested too deeply
                         if (Math.Abs(rp) > double.Epsilon)
                         {
                             sum1 += sorted[k].Item2.Z / rp;
@@ -126,7 +118,6 @@ namespace Geoinformatika
                             sum1 = sorted[k].Item2.Z;
                             sum2 = 1;
                         }
-#pragma warning restore S134 // Control flow statements "if", "switch", "for", "foreach", "while", "do"  and "try" should not be nested too deeply
                     }
                     if (sorted.Count > 0)
                     {
@@ -176,9 +167,7 @@ namespace Geoinformatika
         /// Рассчитать невеязку методом перекрестной проверки для каждого p 
         /// </summary>
         /// <param name="points">Набор точек</param>
-#pragma warning disable S3776 // Cognitive Complexity of methods should not be too high TODO: (26.02.2023) Исправить метод 
         public static IEnumerable<Tuple<double, double>> CalculateAccuracy(List<Geopoint> points)
-#pragma warning restore S3776 // Cognitive Complexity of methods should not be too high
         {
             double r;
             List<Tuple<double, double>> res = new List<Tuple<double, double>>();
@@ -226,9 +215,7 @@ namespace Geoinformatika
             }
             return res;
         }
-#pragma warning disable S1541 // Methods and properties should not be too complex
         private void UpdateMinMax()
-#pragma warning restore S1541 // Methods and properties should not be too complex
         {
             for (int i = 0; i < (gridGeometry?.CountY ?? 0); i++)
             {

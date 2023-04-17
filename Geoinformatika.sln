@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31613.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geoinformatika", "Geoinformatika\Geoinformatika.csproj", "{FF953328-99FF-4315-8A09-5A184E1B4AF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayerModuleTest", "LayerModuleTest\LayerModuleTest.csproj", "{075AB20F-7420-4BCD-96D7-851B9AD12107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{FF953328-99FF-4315-8A09-5A184E1B4AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF953328-99FF-4315-8A09-5A184E1B4AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF953328-99FF-4315-8A09-5A184E1B4AF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{075AB20F-7420-4BCD-96D7-851B9AD12107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{075AB20F-7420-4BCD-96D7-851B9AD12107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{075AB20F-7420-4BCD-96D7-851B9AD12107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{075AB20F-7420-4BCD-96D7-851B9AD12107}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

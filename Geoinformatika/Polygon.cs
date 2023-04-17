@@ -1,7 +1,4 @@
-﻿// This is a personal academic project. Dear PVS-Studio, please check it.
-
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -21,6 +18,10 @@ namespace Geoinformatika
         /// </summary>
         SolidBrush SolidBrush { get; set; }
         public Polygon()
+        {
+            SolidBrush = new SolidBrush(Color.Green);
+        }
+        public Polygon(List<Geopoint> list) : base(list)
         {
             SolidBrush = new SolidBrush(Color.Green);
         }

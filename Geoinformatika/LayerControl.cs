@@ -47,8 +47,6 @@ namespace Geoinformatika
                 return;
             }
             Map.Refresh();
-
-            //Layer layer2 = (e.Item.Tag) as Layer;
         }
 
         private void listView1_DragEnter(object sender, DragEventArgs e)

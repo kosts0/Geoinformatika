@@ -19,9 +19,7 @@ namespace Geoinformatika
         /// <summary>
         /// Слои карты
         /// </summary>
-#pragma warning disable S4004 // Collection properties should be readonly
         public List<AbstractLayer> Layers { get; set; } = new List<AbstractLayer>();
-#pragma warning restore S4004 // Collection properties should be readonly
         /// <summary>
         /// Тип действия
         /// </summary>
@@ -33,7 +31,7 @@ namespace Geoinformatika
         /// <summary>
         /// Координата позиции нажатия мыши на экран
         /// </summary>
-        private System.Drawing.Point mouseDownPosition;
+        private System.Drawing.Point mouseDownPosition { get; set; }
         /// <summary>
         /// Кнопка мыши нажада в данный момент
         /// </summary>
@@ -75,6 +73,11 @@ namespace Geoinformatika
             layer.Name = "Noname";
             this.AddLayer(layer);
             layer.Visible = false;
+            //GridLayer gridLayer = new GridLayer(new GridGeometry(0,0,5,10,10));
+            //gridLayer.Map = this;
+            //gridLayer.Name = "Debug layer";
+            //Layers.Add(gridLayer);
+            //gridLayer.InterpolateFromPoints(new List<Geopoint>() { new Geopoint(1, 1, 10), new Geopoint(2, 2, -3), new Geopoint(4, 5, 15) }, new InterpalationParams() { SearchType = SearchType.SearchRadius, SearchRadius = 10 });
         }
         public void AddLayer(AbstractLayer layer)
         {
@@ -128,7 +131,7 @@ namespace Geoinformatika
             return new Geopoint(x, y);
         }
 
-        private void Map_Paint(object sender, PaintEventArgs e)
+        public void Map_Paint(object sender, PaintEventArgs e)
         {
             foreach (var layer in Layers)
             {
@@ -140,7 +143,7 @@ namespace Geoinformatika
         }
 
 
-        private void Map_MouseDown(object sender, MouseEventArgs e)
+        public void Map_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -150,7 +153,7 @@ namespace Geoinformatika
 
         }
         private Polyline polyline = new Polyline();
-        private void Map_MouseMove(object sender, MouseEventArgs e)
+        public void Map_MouseMove(object sender, MouseEventArgs e)
         {
 
             if (e.Button == MouseButtons.Left && IsMouseDown)
@@ -189,6 +192,8 @@ namespace Geoinformatika
                         break;
                     case MapToolType.Ruler:
                         break;
+                    case MapToolType.GetValue:
+                        break;
                     default:
                         throw new NotSupportedException($"Нет реализации для {ActiveTool}");
                 }
@@ -201,7 +206,7 @@ namespace Geoinformatika
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Map_MouseUp(object sender, MouseEventArgs e)
+        public void Map_MouseUp(object sender, MouseEventArgs e)
         {
 
             switch (ActiveTool)
@@ -240,7 +245,7 @@ namespace Geoinformatika
 
             Refresh();
         }
-        private void MouseUpZoomInAction(MouseEventArgs e)
+        public void MouseUpZoomInAction(MouseEventArgs e)
         {
             int dx = ((int)((e.Location.X - mouseDownPosition.X)/MapScale));
             int dy = (int)((e.Location.Y - mouseDownPosition.Y)/MapScale);
@@ -257,7 +262,7 @@ namespace Geoinformatika
                 MapScale = Math.Abs(dx) > Math.Abs(dy) ? (double)Height / (double)Math.Abs(dy) : (double)Width / (double)Math.Abs(dx);
             }
         }
-        private void MouseUpSelectOnjectVaAction(MouseEventArgs e)
+        public void MouseUpSelectOnjectVaAction(MouseEventArgs e)
         {
             if (Math.Abs(e.Location.X - mouseDownPosition.X) < Shake ||
                     Math.Abs(e.Location.Y - mouseDownPosition.Y) < Shake)
@@ -282,7 +287,7 @@ namespace Geoinformatika
                 Refresh();
             }
         }
-        private MapObject FindObject(GeoRect search)
+        public MapObject FindObject(GeoRect search)
         {
             MapObject result = null;
             for (int i = Layers.Count - 1; i >= 0; i--)
@@ -312,11 +317,11 @@ namespace Geoinformatika
             MapScale = Math.Min(Math.Min((double)Height / Math.Abs(dy), (Width / Math.Abs(dx))), 30);
         }
         bool CntrlPressed { get; set; }
-        private void Map_KeyDown(object sender, KeyEventArgs e)
+        public void Map_KeyDown(object sender, KeyEventArgs e)
         {
             CntrlPressed = e.Control;
         }
-        private void Map_KeyUp(object sender, KeyEventArgs e)
+        public void Map_KeyUp(object sender, KeyEventArgs e)
         {
             CntrlPressed = false;
         }
